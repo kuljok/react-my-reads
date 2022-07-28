@@ -20,7 +20,7 @@ function App() {
         <Grid minH="100vh" p={3}>
           <ColorModeSwitcher justifySelf="flex-end" />
           <VStack spacing={8} align="stretch" divider={<StackDivider borderColor='gray.200' />}>
-            <Box h='100px' >
+            <Box h='150px' >
               <Text fontSize='6xl' fontWeight='bold'>My Reads</Text>
             </Box>
             <Bookshelf title="Currently Reading" />
