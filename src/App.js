@@ -2,14 +2,17 @@ import React from 'react';
 import {
   ChakraProvider,
   Box,
+  IconButton,
   Text,
   Link,
   VStack,
   StackDivider,
   Code,
   Grid,
+  Flex,
   theme,
 } from '@chakra-ui/react';
+import {AddIcon} from '@chakra-ui/icons';
 import Bookshelf from './Bookshelf.js';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 
@@ -27,6 +30,7 @@ function App() {
             <Bookshelf title="Want To Read" />
             <Bookshelf title="Read" />
           </VStack>
+          <IconButton pos="fixed" right="25px" bottom="25px" w="40px" h="40px" variant="solid" isRound="true" icon={<AddIcon />} />
         </Grid>
       </Box>
     </ChakraProvider>
