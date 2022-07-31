@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 import { Route, Routes, Link } from 'react-router-dom';
 import {
   ChakraProvider,
@@ -15,6 +15,46 @@ import { ColorModeSwitcher } from './ColorModeSwitcher';
 import theme from './theme.js';
 
 function App() {
+
+  const [reading, setReading] = useState([
+    {
+      title: 'Book Title',
+      author: 'Steven Kink',
+      cover: 'image.png',
+      isbn: '1'
+    },
+    {
+      title: 'Book Title',
+      author: 'Steven Kink',
+      cover: 'image.png',
+      isbn: '2'
+    },
+    {
+      title: 'Book Title',
+      author: 'Steven Kink',
+      cover: 'image.png',
+      isbn: '3'
+    },
+    {
+      title: 'Book Title',
+      author: 'Steven Kink',
+      cover: 'image.png',
+      isbn: '4'
+    },
+    {
+      title: 'Book Title',
+      author: 'Steven Kink',
+      cover: 'image.png',
+      isbn: '5'
+    },
+  {
+      title: 'Book Title',
+      author: 'Steven Kink',
+      cover: 'image.png',
+      isbn: '4'
+    }
+  ]);
+
   return (
     <ChakraProvider theme={theme}>
       <Box textAlign="center" fontSize="xl">
@@ -25,7 +65,7 @@ function App() {
               <Text fontSize='6xl' fontWeight='bold'>My Reads</Text>
             </Box>
             <Routes>
-              <Route exact path="/" element={ <BookCase /> } />
+              <Route exact path="/" element={ <BookCase reading={reading} /> } />
               <Route path="/search" element={ <AddBook /> } />
             </Routes>
           </VStack>

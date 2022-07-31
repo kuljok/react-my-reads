@@ -1,10 +1,18 @@
-import {Box, Text} from '@chakra-ui/react';
+import {Text, Flex, VStack} from '@chakra-ui/react';
+import Book from "./Book.js";
 
-const Bookshelf = ({title}) => {
+const Bookshelf = ({title, books=[]}) => {
   return (
-    <Box h='200px'>
+    <VStack max-width="100%">
       <Text fontSize='3xl'>{title}</Text>
-    </Box>
+      <Flex h='200px' gap="24px" w="100%" direction="row" overflowX="auto">
+        {
+          books.map((book) =>(
+            <Book book={book} />
+          ))
+        }
+      </Flex>
+    </VStack>
   )
 }
 
