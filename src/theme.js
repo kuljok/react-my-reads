@@ -1,7 +1,7 @@
 import { extendTheme } from '@chakra-ui/react';
 
 const globalProps = {
-  colorScheme: 'blue',
+  colorScheme: 'cyan',
   size: 'lg'
 }
 
@@ -14,7 +14,7 @@ const theme = extendTheme({
     },
     Text: {
       baseStyle: {
-        color: 'blue.600'
+        color: 'cyan.600'
       },
       defaultProps: {
         ...globalProps
