@@ -10,11 +10,11 @@ import {
   Code,
   Grid,
   Flex,
-  theme,
 } from '@chakra-ui/react';
 import {AddIcon} from '@chakra-ui/icons';
 import Bookshelf from './Bookshelf.js';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
+import theme from './theme.js';
 
 function App() {
   return (
@@ -22,7 +22,7 @@ function App() {
       <Box textAlign="center" fontSize="xl">
         <Grid minH="100vh" p={3}>
           <ColorModeSwitcher justifySelf="flex-end" />
-          <VStack spacing={8} align="stretch" divider={<StackDivider borderColor='gray.200' />}>
+          <VStack spacing={8} align="stretch" divider={<StackDivider borderColor='blue.200' />}>
             <Box h='150px' >
               <Text fontSize='6xl' fontWeight='bold'>My Reads</Text>
             </Box>
@@ -30,7 +30,9 @@ function App() {
             <Bookshelf title="Want To Read" />
             <Bookshelf title="Read" />
           </VStack>
-          <IconButton pos="fixed" right="25px" bottom="25px" w="40px" h="40px" variant="solid" isRound="true" icon={<AddIcon />} />
+          <IconButton pos="fixed" right="25px" 
+              boxSize="4em" bottom="25px" variant="solid" isRound="true" 
+              icon={<AddIcon size="lg"/>} />
         </Grid>
       </Box>
     </ChakraProvider>
