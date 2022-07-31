@@ -1,10 +1,20 @@
-import {Box, Text} from '@chakra-ui/react';
+import {Box, Text, HStack, VStack, Input, IconButton} from '@chakra-ui/react';
+import {Link} from 'react-router-dom';
+import {ArrowBackIcon} from '@chakra-ui/icons';
 
 const AddBook = () => {
   return (
-    <Box bg="red.200">
-      <Text>SEARCH</Text>
-    </Box>
+    <VStack align="stretch">
+      <HStack spacing={3} align="center">
+        <Link to="/">
+          <IconButton variant="ghost" icon={<ArrowBackIcon />} />
+        </Link>
+        <Input placeholder="Search by title, author or ISBN"/>
+      </HStack>
+      <HStack spacing="24px" align="stretch" >
+        <Box />
+      </HStack>
+    </VStack>
   )
 }
 
