@@ -1,18 +1,16 @@
 import React from 'react';
+import { Route, Routes, Link } from 'react-router-dom';
 import {
   ChakraProvider,
   Box,
-  IconButton,
   Text,
-  Link,
   VStack,
   StackDivider,
-  Code,
   Grid,
-  Flex,
 } from '@chakra-ui/react';
 import {AddIcon} from '@chakra-ui/icons';
-import Bookshelf from './Bookshelf.js';
+import BookCase from './BookCase.js';
+import AddBook from './AddBook.js';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import theme from './theme.js';
 
@@ -26,13 +24,11 @@ function App() {
             <Box h='150px' >
               <Text fontSize='6xl' fontWeight='bold'>My Reads</Text>
             </Box>
-            <Bookshelf title="Currently Reading" />
-            <Bookshelf title="Want To Read" />
-            <Bookshelf title="Read" />
+            <Routes>
+              <Route exact path="/" element={ <BookCase /> } />
+              <Route path="/search" element={ <AddBook /> } />
+            </Routes>
           </VStack>
-          <IconButton pos="fixed" right="25px" 
-              boxSize="4em" bottom="25px" variant="solid" isRound="true" 
-              icon={<AddIcon size="lg"/>} />
         </Grid>
       </Box>
     </ChakraProvider>
