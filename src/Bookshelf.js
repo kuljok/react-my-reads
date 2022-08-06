@@ -8,7 +8,7 @@ const Bookshelf = ({title, books=[]}) => {
       <Flex h='200px' gap="24px" w="100%" direction="row" overflowX="auto">
         {
           books.map((book) =>(
-            <Book key={book.isbn} book={book} />
+            <Book key={book.id} book={book} />
           ))
         }
       </Flex>
