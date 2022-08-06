@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import {AddIcon} from '@chakra-ui/icons';
 import BookCase from './BookCase.js';
-import AddBook from './AddBook.js';
+import SearchBook from './SearchBook.js';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import theme from './theme.js';
 
@@ -30,7 +30,7 @@ function App() {
       isbn: '2'
     },
     {
-      title: 'Book Title',
+      title: 'Book 3',
       author: 'Steven Kink',
       cover: 'image.png',
       isbn: '3'
@@ -47,7 +47,85 @@ function App() {
       cover: 'image.png',
       isbn: '5'
     },
-  {
+    {
+      title: 'Book Title',
+      author: 'Steven Kink',
+      cover: 'image.png',
+      isbn: '4'
+    }
+  ]);
+
+  const [want, setWant] = useState([
+    {
+      title: 'Book Title',
+      author: 'Steven Kink',
+      cover: 'image.png',
+      isbn: '1'
+    },
+    {
+      title: 'Book Title',
+      author: 'Steven Kink',
+      cover: 'image.png',
+      isbn: '2'
+    },
+    {
+      title: 'Book 3',
+      author: 'Steven Kink',
+      cover: 'image.png',
+      isbn: '3'
+    },
+    {
+      title: 'Book Title',
+      author: 'Steven Kink',
+      cover: 'image.png',
+      isbn: '4'
+    },
+    {
+      title: 'Book Title',
+      author: 'Steven Kink',
+      cover: 'image.png',
+      isbn: '5'
+    },
+    {
+      title: 'Book Title',
+      author: 'Steven Kink',
+      cover: 'image.png',
+      isbn: '4'
+    }
+  ]);
+
+  const [read, setRead] = useState([
+    {
+      title: 'Book Title',
+      author: 'Steven Kink',
+      cover: 'image.png',
+      isbn: '1'
+    },
+    {
+      title: 'Book Title',
+      author: 'Steven Kink',
+      cover: 'image.png',
+      isbn: '2'
+    },
+    {
+      title: 'Book 3',
+      author: 'Steven Kink',
+      cover: 'image.png',
+      isbn: '3'
+    },
+    {
+      title: 'Book Title',
+      author: 'Steven Kink',
+      cover: 'image.png',
+      isbn: '4'
+    },
+    {
+      title: 'Book Title',
+      author: 'Steven Kink',
+      cover: 'image.png',
+      isbn: '5'
+    },
+    {
       title: 'Book Title',
       author: 'Steven Kink',
       cover: 'image.png',
@@ -65,8 +143,11 @@ function App() {
               <Text fontSize='6xl' fontWeight='bold'>My Reads</Text>
             </Box>
             <Routes>
-              <Route exact path="/" element={ <BookCase reading={reading} /> } />
-              <Route path="/search" element={ <AddBook /> } />
+              <Route exact path="/" 
+    element={ <BookCase reading={reading} 
+      want={want}
+      read={read}/> } />
+              <Route path="/search" element={ <SearchBook /> } />
             </Routes>
           </VStack>
         </Grid>
