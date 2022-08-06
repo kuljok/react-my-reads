@@ -14,7 +14,7 @@ import SearchBook from './SearchBook.js';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import theme from './theme.js';
 import {getAll} from './api/BooksAPI.js';
-import {mapBook} from './api/BookMapper.js';
+import {mapBook} from './MyReadsModel.js';
 
 function App() {
 

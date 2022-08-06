@@ -5,23 +5,22 @@ import {ArrowBackIcon} from '@chakra-ui/icons';
 import {search} from './api/BooksAPI.js';
 import {useState} from 'react';
 import Book from './Book.js';
-import {mapBook} from './api/BookMapper.js';
+import {mapBook} from './MyReadsModel.js';
 
 const SearchBook = () => {
 
   const [found, setFound] = useState([]);
 
-  const updateSearch = (searchText) => {
-    search(searchText, 20)
-        .then((data) => {
-          if (data && Array.isArray(data)) {
-            setFound(data.map(i => mapBook(i)));
-          }
-          else {
-            setFound([]);
-          }
-        }
-      );
+  const updateSearch = async (searchText) => {
+    const searchResults = await search(searchText, 20);
+    if (searchResults && Array.isArray(searchResults))
+    {
+      setFound(searchResults.map(b => mapBook(b)));
+    }
+    else
+    {
+      setFound([]);
+    }
   };
 
   return (
@@ -34,11 +33,11 @@ const SearchBook = () => {
             onChange={(event) => updateSearch(event.target.value)}/>
       </HStack>
       <VStack>
-      <SimpleGrid columns={{sm: 2, md: 3, lg: 5}} spacing={10} maxChildWidth="150px"> 
+      <SimpleGrid columns={{sm: 2, md: 3, lg: 5}} spacing={10} > 
           {
             found.map((f) => (
-              <Box w="150px">
-                <Book key={f.isbn} book={f} />
+              <Box key={f.id} w="150px">
+                <Book book={f} />
               </Box>
             ))
           }
