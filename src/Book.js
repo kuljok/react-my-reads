@@ -1,6 +1,5 @@
-import {Box, Text, Container, Image,
-        Menu, MenuButton, IconButton, MenuItem, MenuList} from "@chakra-ui/react";
-import {TriangleDownIcon} from '@chakra-ui/icons';
+import {Box, Text, Image} from "@chakra-ui/react";
+import BookMenu from './BookMenu.js';
 
 const Book = ({book}) => {
   return (
@@ -8,19 +7,7 @@ const Book = ({book}) => {
     {book.cover !== 'none' ? <Image ml="auto" mr="auto"  maxH="130px" src={book.cover} 
       alt={book.title} /> : '' }
       <Text fontSize="sm" fontWeight="bold">{book.title}</Text>
-      <Menu preventOverflow="false" strategy="fixed">
-        <MenuButton boxSize="3em" size="sm" pos="absolute" top="90px" right="15px" isRound="true"
-          as={IconButton}
-          aria-label="Move To:"
-          icon={<TriangleDownIcon size="sm"/>}
-          variant="solid" />
-        <MenuList >
-          <MenuItem>Currently Reading</MenuItem>
-          <MenuItem>Want To Read</MenuItem>
-          <MenuItem>Read</MenuItem>
-          <MenuItem>None</MenuItem>
-        </MenuList>
-      </Menu>
+      <BookMenu book={book} />
     </Box>
   )
 }

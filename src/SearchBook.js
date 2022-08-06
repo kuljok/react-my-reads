@@ -13,14 +13,14 @@ const SearchBook = () => {
 
   const updateSearch = (searchText) => {
     search(searchText, 20)
-      .then((data) => {
-        if (data && Array.isArray(data)) {
-          setFound(data.map(i => mapBook(i)));
+        .then((data) => {
+          if (data && Array.isArray(data)) {
+            setFound(data.map(i => mapBook(i)));
+          }
+          else {
+            setFound([]);
+          }
         }
-        else {
-          setFound([]);
-        }
-      }
       );
   };
 
