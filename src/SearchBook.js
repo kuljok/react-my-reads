@@ -13,14 +13,14 @@ const SearchBook = () => {
   const updateSearch = (searchText) => {
     search(searchText, 20)
       .then((data) => {
-        if (data) {
+        if (data && Array.isArray(data)) {
           setFound(data.map(i => 
           {
             return {
               title: i.title, 
-              author: i.authors.join(), 
+              author: i.authors ? i.authors.join() : 'Unknown', 
               id: i.id,
-              cover: i.imageLinks.thumbnail
+              cover: i.imageLinks ? i.imageLinks.thumbnail : "none"
             }
           }
           ));
