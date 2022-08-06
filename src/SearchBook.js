@@ -5,6 +5,7 @@ import {ArrowBackIcon} from '@chakra-ui/icons';
 import {search} from './api/BooksAPI.js';
 import {useState} from 'react';
 import Book from './Book.js';
+import {mapBook} from './api/BookMapper.js';
 
 const SearchBook = () => {
 
@@ -14,16 +15,7 @@ const SearchBook = () => {
     search(searchText, 20)
       .then((data) => {
         if (data && Array.isArray(data)) {
-          setFound(data.map(i => 
-          {
-            return {
-              title: i.title, 
-              author: i.authors ? i.authors.join() : 'Unknown', 
-              id: i.id,
-              cover: i.imageLinks ? i.imageLinks.thumbnail : "none"
-            }
-          }
-          ));
+          setFound(data.map(i => mapBook(i)));
         }
         else {
           setFound([]);

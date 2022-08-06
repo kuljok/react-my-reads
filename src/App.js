@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import { Route, Routes, Link } from 'react-router-dom';
 import {
   ChakraProvider,
@@ -13,125 +13,41 @@ import BookCase from './BookCase.js';
 import SearchBook from './SearchBook.js';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import theme from './theme.js';
+import {getAll} from './api/BooksAPI.js';
+import {mapBook} from './api/BookMapper.js';
 
 function App() {
 
-  const [reading, setReading] = useState([
-    {
-      title: 'Book Title',
-      author: 'Steven Kink',
-      cover: 'image.png',
-      isbn: '1'
-    },
-    {
-      title: 'Book Title',
-      author: 'Steven Kink',
-      cover: 'image.png',
-      isbn: '2'
-    },
-    {
-      title: 'Book 3',
-      author: 'Steven Kink',
-      cover: 'image.png',
-      isbn: '3'
-    },
-    {
-      title: 'Book Title',
-      author: 'Steven Kink',
-      cover: 'image.png',
-      isbn: '4'
-    },
-    {
-      title: 'Book Title',
-      author: 'Steven Kink',
-      cover: 'image.png',
-      isbn: '5'
-    },
-    {
-      title: 'Book Title',
-      author: 'Steven Kink',
-      cover: 'image.png',
-      isbn: '4'
-    }
-  ]);
+  const [reading, setReading] = useState([]);
+  const [want, setWant] = useState([]);
+  const [read, setRead] = useState([]);
 
-  const [want, setWant] = useState([
-    {
-      title: 'Book Title',
-      author: 'Steven Kink',
-      cover: 'image.png',
-      isbn: '1'
-    },
-    {
-      title: 'Book Title',
-      author: 'Steven Kink',
-      cover: 'image.png',
-      isbn: '2'
-    },
-    {
-      title: 'Book 3',
-      author: 'Steven Kink',
-      cover: 'image.png',
-      isbn: '3'
-    },
-    {
-      title: 'Book Title',
-      author: 'Steven Kink',
-      cover: 'image.png',
-      isbn: '4'
-    },
-    {
-      title: 'Book Title',
-      author: 'Steven Kink',
-      cover: 'image.png',
-      isbn: '5'
-    },
-    {
-      title: 'Book Title',
-      author: 'Steven Kink',
-      cover: 'image.png',
-      isbn: '4'
-    }
-  ]);
-
-  const [read, setRead] = useState([
-    {
-      title: 'Book Title',
-      author: 'Steven Kink',
-      cover: 'image.png',
-      isbn: '1'
-    },
-    {
-      title: 'Book Title',
-      author: 'Steven Kink',
-      cover: 'image.png',
-      isbn: '2'
-    },
-    {
-      title: 'Book 3',
-      author: 'Steven Kink',
-      cover: 'image.png',
-      isbn: '3'
-    },
-    {
-      title: 'Book Title',
-      author: 'Steven Kink',
-      cover: 'image.png',
-      isbn: '4'
-    },
-    {
-      title: 'Book Title',
-      author: 'Steven Kink',
-      cover: 'image.png',
-      isbn: '5'
-    },
-    {
-      title: 'Book Title',
-      author: 'Steven Kink',
-      cover: 'image.png',
-      isbn: '4'
-    }
-  ]);
+  useEffect(() => {
+    const getBooks  = async () => {
+      const books = await getAll();
+      const read = [];
+      const reading = [];
+      const want = [];
+      books.map(b => {
+        if (b.shelf === 'read')
+        {
+          read.push(mapBook(b));
+        } 
+        else if (b.shelf === 'currentlyReading')
+        {
+          reading.push(mapBook(b));
+        } 
+        else if (b.shelf === 'wantToRead')
+        {
+          want.push(mapBook(b));
+        }
+      });
+      setRead(read);
+      setReading(reading);
+      setWant(want);
+    };
+    getBooks();
+  }, []);
 
   return (
     <ChakraProvider theme={theme}>
