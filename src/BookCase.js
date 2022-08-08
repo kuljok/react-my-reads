@@ -3,13 +3,13 @@ import {AddIcon} from '@chakra-ui/icons';
 import {Link} from 'react-router-dom';
 import Bookshelf from './Bookshelf.js';
 
-const BookCase = ({reading, want, read}) => {
+const BookCase = ({shelfs}) => {
   return (
     <Box textAlign="center" fontSize="xl" >
       <VStack spacing={8} align="stretch" divider={<StackDivider />} >
-        <Bookshelf books={reading} title="Currently Reading" />
-        <Bookshelf books={want} title="Want To Read" />
-        <Bookshelf books={read} title="Read" />
+        {
+          shelfs.map(s => (<Bookshelf key={s.shelfId} shelf={s} />))
+        }
       </VStack>
       <Link to="/search">
                   <IconButton pos="fixed" right="25px" 
