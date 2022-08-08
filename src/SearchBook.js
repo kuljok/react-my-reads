@@ -5,9 +5,8 @@ import {ArrowBackIcon} from '@chakra-ui/icons';
 import {search} from './api/BooksAPI.js';
 import {useState} from 'react';
 import Book from './Book.js';
-import {mapBook} from './MyReadsModel.js';
 
-const SearchBook = () => {
+const SearchBook = ({mapBook}) => {
 
   const [found, setFound] = useState([]);
 
@@ -15,7 +14,7 @@ const SearchBook = () => {
     const searchResults = await search(searchText, 20);
     if (searchResults && Array.isArray(searchResults))
     {
-      setFound(searchResults.map(b => mapBook(b)));
+      setFound(searchResults.map(mapBook));
     }
     else
     {

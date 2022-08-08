@@ -1,8 +1,7 @@
 import {Menu, MenuButton, IconButton, MenuList, MenuItemOption, MenuOptionGroup} from '@chakra-ui/react';
 import {TriangleDownIcon} from '@chakra-ui/icons';
-import {shelfs} from './MyReadsModel.js';
 
-const BookMenu = ({book}) => {
+const BookMenu = ({book, shelfs}) => {
 
   const currentShelf = shelfs.find(shelf => shelf.type === book.shelf);
 
