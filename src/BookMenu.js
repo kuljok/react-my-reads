@@ -3,7 +3,15 @@ import {TriangleDownIcon} from '@chakra-ui/icons';
 
 const BookMenu = ({book, shelfs}) => {
 
-  const currentShelf = shelfs.find(shelf => shelf.type === book.shelf);
+  const noneItem = {
+    state: [],
+    shelfId: 'none',
+    title: 'None'
+  };
+  const menuItems = [...shelfs, noneItem];
+
+  let currentShelf = shelfs.find(shelf => shelf.shelfId === book.shelf);
+  currentShelf = currentShelf ? currentShelf.shelfId : noneItem.shelfId;
 
   return (
     <Menu preventOverflow="false" strategy="fixed" >
@@ -12,10 +20,10 @@ const BookMenu = ({book, shelfs}) => {
           icon={<TriangleDownIcon size="sm"/>}
           variant="solid" />
         <MenuList>
-          <MenuOptionGroup defaultValue={currentShelf ? currentShelf.type : 'none'} title="Move To:" type="radio">
+          <MenuOptionGroup defaultValue={currentShelf} title="Move To:" type="radio">
             {
-              shelfs.map(shelf => (
-                <MenuItemOption key={shelf.type} value={shelf.type}>{shelf.title}</MenuItemOption>
+              menuItems.map(shelf => (
+                <MenuItemOption key={shelf.shelfId} value={shelf.shelfId}>{shelf.title}</MenuItemOption>
               ))
             }
           </MenuOptionGroup>

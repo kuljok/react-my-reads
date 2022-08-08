@@ -7,7 +7,7 @@ const Book = ({book}) => {
     {book.cover !== 'none' ? <Image ml="auto" mr="auto"  maxH="130px" src={book.cover} 
       alt={book.title} /> : '' }
       <Text fontSize="sm" fontWeight="bold">{book.title}</Text>
-      <BookMenu book={book} />
+      {book.menu}
     </Box>
   )
 }

@@ -10,41 +10,68 @@ import {
 } from '@chakra-ui/react';
 import {AddIcon} from '@chakra-ui/icons';
 import BookCase from './BookCase.js';
+import BookMenu from './BookMenu.js';
 import SearchBook from './SearchBook.js';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import theme from './theme.js';
 import {getAll} from './api/BooksAPI.js';
-import {mapBook} from './MyReadsModel.js';
 
 function App() {
 
-  const [reading, setReading] = useState([]);
-  const [want, setWant] = useState([]);
-  const [read, setRead] = useState([]);
+  const registeredShelfs = [
+    { 
+      state: useState([]),
+      shelfId: 'currentlyReading',
+      title: 'Currently Reading'
+    },
+    {
+      state: useState([]),
+      shelfId: 'wantToRead',
+      title: 'Want To Read'
+    },
+    {
+      state: useState([]),
+      shelfId: 'read',
+      title: 'Read'
+    }
+  ];
+
+  const mapSourceBook = (b) => Object.assign({}, {
+    title: b.title,
+    author: b.authors ? b.authors.join(',') : "Unknown",
+    id: b.id,
+    cover: b.imageLinks ? b.imageLinks.thumbnail : "none",
+    shelf: b.shelf
+  });
+
+  const addMenu = (b) => Object.assign({}, {
+    ...b,
+    menu: <BookMenu book={b} shelfs={registeredShelfs} />
+  });
+
+  const findShelfByBookId = (id) => {
+    return registeredShelfs.reduce((prev, current) => 
+            prev && prev !== 'none' ? prev : 
+              current.state[0].find(b => b.id === id) ? 
+                current.shelfId : 'none', null); 
+  };
+
+  const mapShelfByBookId = (b) => Object.assign({}, {
+    ...b,
+    shelf: findShelfByBookId(b.id)
+  });
+
+  const composeBook = (...props) => 
+    (b) => props.reduce((composed, next) => next(composed), b);
 
   useEffect(() => {
     const getBooks  = async () => {
       const books = await getAll();
-      const read = [];
-      const reading = [];
-      const want = [];
-      books.map(b => {
-        if (b.shelf === 'read')
-        {
-          read.push(mapBook(b));
-        } 
-        else if (b.shelf === 'currentlyReading')
-        {
-          reading.push(mapBook(b));
-        } 
-        else if (b.shelf === 'wantToRead')
-        {
-          want.push(mapBook(b));
-        }
-      });
-      setRead(read);
-      setReading(reading);
-      setWant(want);
+      for (const shelf of registeredShelfs)
+      {
+        shelf.state[1](books.filter(b=>b.shelf === shelf.shelfId)
+          .map(composeBook(mapSourceBook, addMenu)));
+      }
     };
     getBooks();
   }, []);
@@ -60,10 +87,9 @@ function App() {
             </Box>
             <Routes>
               <Route exact path="/" 
-    element={ <BookCase reading={reading} 
-      want={want}
-      read={read}/> } />
-              <Route path="/search" element={ <SearchBook /> } />
+                element={ <BookCase shelfs={registeredShelfs} /> } />
+              <Route path="/search" element={ <SearchBook 
+                mapBook={composeBook(mapSourceBook, mapShelfByBookId, addMenu)}/> } />
             </Routes>
           </VStack>
         </Grid>
