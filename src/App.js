@@ -7,6 +7,7 @@ import {
   VStack,
   StackDivider,
   Grid,
+  useDisclosure
 } from '@chakra-ui/react';
 import {AddIcon} from '@chakra-ui/icons';
 import BookCase from './BookCase.js';
@@ -14,7 +15,8 @@ import BookMenu from './BookMenu.js';
 import SearchBook from './SearchBook.js';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import theme from './theme.js';
-import {getAll} from './api/BooksAPI.js';
+import {getAll, update} from './api/BooksAPI.js';
+import ShowError from './ShowError.js';
 
 function App() {
 
@@ -44,9 +46,24 @@ function App() {
     shelf: b.shelf
   });
 
+  const moveBook = async (b, s) => {
+    const updatedShelfs = await update(b, s.shelfId)
+      .catch(e => showError('Error has occurred during moving the book.'));
+
+    if (updatedShelfs)
+    {
+      for(const shelf of shelfs)
+      {
+        console.log(shelf);
+        shelf.state[1](shelf.state[0]
+          .filter(b => shelfs[shelf.shelfId].contains(b.id)));
+      }
+    }
+  };
+
   const addMenu = (b) => Object.assign({}, {
     ...b,
-    menu: <BookMenu book={b} shelfs={registeredShelfs} />
+    menu: <BookMenu book={b} shelfs={shelfs} moveBook={moveBook} />
   });
 
   const findShelfByBookId = (id) => {
@@ -60,6 +77,8 @@ function App() {
     ...b,
     shelf: findShelfByBookId(b.id)
   });
+
+  let showError;
 
   const composeBook = (...props) => 
     (b) => props.reduce((composed, next) => next(composed), b);
@@ -76,8 +95,13 @@ function App() {
     getBooks();
   }, []);
 
+  const assignShow = (showRef) => {
+    showError = showRef;
+  }
+
   return (
     <ChakraProvider theme={theme}>
+      <ShowError myref={assignShow} />
       <Box textAlign="center" fontSize="xl">
         <Grid minH="100%" p={3}>
           <ColorModeSwitcher justifySelf="flex-end" />
