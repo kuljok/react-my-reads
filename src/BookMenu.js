@@ -1,7 +1,7 @@
 import {Menu, MenuButton, IconButton, MenuList, MenuItemOption, MenuOptionGroup} from '@chakra-ui/react';
 import {TriangleDownIcon} from '@chakra-ui/icons';
 
-const BookMenu = ({book, shelfs}) => {
+const BookMenu = ({book, shelfs, moveBook}) => {
 
   const noneItem = {
     state: [],
@@ -23,7 +23,7 @@ const BookMenu = ({book, shelfs}) => {
           <MenuOptionGroup defaultValue={currentShelf} title="Move To:" type="radio">
             {
               menuItems.map(shelf => (
-                <MenuItemOption key={shelf.shelfId} value={shelf.shelfId}>{shelf.title}</MenuItemOption>
+                <MenuItemOption onClick={(e) => moveBook(book, shelf)} key={shelf.shelfId} value={shelf.shelfId}>{shelf.title}</MenuItemOption>
               ))
             }
           </MenuOptionGroup>

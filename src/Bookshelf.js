@@ -7,7 +7,7 @@ const Bookshelf = ({title, shelf}) => {
       <Text fontSize='3xl'>{shelf.title}</Text>
       <Flex h='200px' gap="24px" w="100%" direction="row" overflowX="auto">
         {
-          shelf.state[0].map((book) =>(
+          shelf.books.map((book) =>(
             <Book key={book.id} book={book} />
           ))
         }

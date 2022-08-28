@@ -20,23 +20,23 @@ import ShowError from './ShowError.js';
 
 function App() {
 
-  const registeredShelfs = [
+  const [shelfs, setShelfs] = useState([
     { 
-      state: useState([]),
+      books: [],
       shelfId: 'currentlyReading',
       title: 'Currently Reading'
     },
     {
-      state: useState([]),
+      books: [],
       shelfId: 'wantToRead',
       title: 'Want To Read'
     },
     {
-      state: useState([]),
+      books: [],
       shelfId: 'read',
       title: 'Read'
     }
-  ];
+  ]);
 
   const mapSourceBook = (b) => Object.assign({}, {
     title: b.title,
@@ -67,7 +67,7 @@ function App() {
   });
 
   const findShelfByBookId = (id) => {
-    return registeredShelfs.reduce((prev, current) => 
+    return shelfs.reduce((prev, current) => 
             prev && prev !== 'none' ? prev : 
               current.state[0].find(b => b.id === id) ? 
                 current.shelfId : 'none', null); 
@@ -86,11 +86,12 @@ function App() {
   useEffect(() => {
     const getBooks  = async () => {
       const books = await getAll();
-      for (const shelf of registeredShelfs)
-      {
-        shelf.state[1](books.filter(b=>b.shelf === shelf.shelfId)
-          .map(composeBook(mapSourceBook, addMenu)));
-      }
+      const newShelfs = shelfs.map(s => {
+        s.books = books.filter(b => b.shelf == s.shelfId)
+          .map(composeBook(mapSourceBook, addMenu));
+        return s;
+      })
+      setShelfs(newShelfs);
     };
     getBooks();
   }, []);
@@ -111,7 +112,7 @@ function App() {
             </Box>
             <Routes>
               <Route exact path="/" 
-                element={ <BookCase shelfs={registeredShelfs} /> } />
+                element={ <BookCase shelfs={shelfs} /> } />
               <Route path="/search" element={ <SearchBook 
                 mapBook={composeBook(mapSourceBook, mapShelfByBookId, addMenu)}/> } />
             </Routes>
