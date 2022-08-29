@@ -47,17 +47,24 @@ function App() {
   });
 
   const moveBook = async (b, s) => {
-    const updatedShelfs = await update(b, s.shelfId)
+    const response = await update(b, s.shelfId)
       .catch(e => showError('Error has occurred during moving the book.'));
 
-    if (updatedShelfs)
+    if (response)
     {
-      for(const shelf of shelfs)
-      {
-        console.log(shelf);
-        shelf.state[1](shelf.state[0]
-          .filter(b => shelfs[shelf.shelfId].contains(b.id)));
-      }
+      const updatedShelfs = shelfs.map(s => {
+        const newShelf = {...s,
+          books: response[s.shelfId].map(id => {
+                    const found = findBookById(id);
+                    return {
+                      ...found,
+                      shelf: s.shelfId
+                    }
+                  })
+        };
+        return newShelf;
+      });
+      setShelfs(updatedShelfs);
     }
   };
 
@@ -71,6 +78,11 @@ function App() {
             prev && prev !== 'none' ? prev : 
               current.state[0].find(b => b.id === id) ? 
                 current.shelfId : 'none', null); 
+  };
+
+  const findBookById = (id) => {
+    return shelfs.reduce((prev, current) => 
+            prev ? prev : current.books.find(b => b.id === id), null);
   };
 
   const mapShelfByBookId = (b) => Object.assign({}, {
