@@ -5,7 +5,7 @@ const Bookshelf = ({title, shelf}) => {
   return (
     <VStack max-width="100%">
       <Text fontSize='3xl'>{shelf.title}</Text>
-      <Flex h='200px' gap="24px" w="100%" direction="row" overflowX="auto">
+      <Flex h='230px' gap="24px" w="100%" direction="row" overflowX="auto">
         {
           shelf.books.map((book) =>(
             <Book key={book.id} book={book} />
