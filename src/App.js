@@ -15,7 +15,7 @@ import BookMenu from './BookMenu.js';
 import SearchBook from './SearchBook.js';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import theme from './theme.js';
-import {getAll, update} from './api/BooksAPI.js';
+import {getAll, update, get} from './api/BooksAPI.js';
 import ShowError from './ShowError.js';
 
 function App() {
@@ -46,24 +46,32 @@ function App() {
     shelf: b.shelf
   });
 
+  const getBook = async (id) => await get(id);
+
   const moveBook = async (b, s) => {
     const response = await update(b, s.shelfId)
       .catch(e => showError('Error has occurred during moving the book.'));
 
     if (response)
     {
-      const updatedShelfs = shelfs.map(s => {
+      const updatedShelfs = await Promise.all(shelfs.map(async (s) => {
         const newShelf = {...s,
-          books: response[s.shelfId].map(id => {
-                    const found = findBookById(id);
+          books: await Promise.all(response[s.shelfId].map(async (id) => {
+                    let found = findBookById(id);
+                    if (!found)
+                    {
+                      const book = await getBook(id);
+                      found = mapSourceBook(book);
+                      found = addMenu(found);
+                    }
                     return {
                       ...found,
                       shelf: s.shelfId
                     }
-                  })
+                  }))
         };
         return newShelf;
-      });
+      }));
       setShelfs(updatedShelfs);
     }
   };
@@ -76,7 +84,7 @@ function App() {
   const findShelfByBookId = (id) => {
     return shelfs.reduce((prev, current) => 
             prev && prev !== 'none' ? prev : 
-              current.state[0].find(b => b.id === id) ? 
+              current.books.find(b => b.id === id) ? 
                 current.shelfId : 'none', null); 
   };
 
