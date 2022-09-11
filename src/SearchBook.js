@@ -5,6 +5,7 @@ import {ArrowBackIcon} from '@chakra-ui/icons';
 import {search} from './api/BooksAPI.js';
 import {useState} from 'react';
 import Book from './Book.js';
+import PropTypes from 'prop-types';
 
 const SearchBook = ({mapBook}) => {
 
@@ -44,6 +45,10 @@ const SearchBook = ({mapBook}) => {
     </VStack>
     </VStack>
   )
+}
+
+SearchBook.propTypes = {
+  mapBook: PropTypes.func.isRequired
 }
 
 export default SearchBook;

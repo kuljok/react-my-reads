@@ -1,7 +1,8 @@
 import {Text, Flex, VStack} from '@chakra-ui/react';
 import Book from "./Book.js";
+import PropTypes from 'prop-types';
 
-const Bookshelf = ({title, shelf}) => {
+const Bookshelf = ({shelf}) => {
   return (
     <VStack max-width="100%">
       <Text fontSize='3xl'>{shelf.title}</Text>
@@ -14,6 +15,10 @@ const Bookshelf = ({title, shelf}) => {
       </Flex>
     </VStack>
   )
+}
+
+Bookshelf.propTypes = {
+  shelf: PropTypes.object.isRequired
 }
 
 export default Bookshelf;

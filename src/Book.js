@@ -1,5 +1,6 @@
 import {Box, Text, Image} from "@chakra-ui/react";
 import BookMenu from './BookMenu.js';
+import PropTypes from 'prop-types'; 
 
 const Book = ({book}) => {
   return (
@@ -13,4 +14,10 @@ const Book = ({book}) => {
   )
 }
 
+Book.propTypes = {
+  book: PropTypes.object
+}
+
 export default Book;
+
+

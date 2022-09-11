@@ -9,6 +9,7 @@ import { AlertDialog, useDisclosure,
   AlertTitle,
   AlertDescription } from '@chakra-ui/react';
 import {useRef, useState} from 'react';
+import PropTypes from 'prop-types';
 
 const ShowError = ({myref}) => {
 
@@ -41,6 +42,10 @@ const ShowError = ({myref}) => {
         </AlertDialogContent>
       </AlertDialog>
     )
+}
+
+ShowError.propTypes = {
+  myref: PropTypes.func.isRequired
 }
 
 export default ShowError;

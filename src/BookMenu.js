@@ -1,5 +1,6 @@
 import {Menu, MenuButton, IconButton, MenuList, MenuItemOption, MenuOptionGroup} from '@chakra-ui/react';
 import {TriangleDownIcon} from '@chakra-ui/icons';
+import PropTypes from 'prop-types';
 
 const BookMenu = ({book, shelfs, moveBook}) => {
 
@@ -31,5 +32,11 @@ const BookMenu = ({book, shelfs, moveBook}) => {
       </Menu>
   );
 };
+
+BookMenu.propTypes = {
+  book: PropTypes.object.isRequired,
+  shelfs: PropTypes.array.isRequired,
+  moveBook: PropTypes.func.isRequired
+}
 
 export default BookMenu;
