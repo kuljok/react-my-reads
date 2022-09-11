@@ -46,16 +46,22 @@ const SearchBook = ({mapBook}) => {
             onChange={(event) => debounceSearch(event.target.value)}/>
       </HStack>
       <VStack>
-      <SimpleGrid columns={{sm: 2, md: 3, lg: 5}} spacing={10} > 
-          {
-            found.map((f) => (
-              <Box key={f.id} w="150px">
-                <Book book={f} />
-              </Box>
-            ))
-          }
-      </SimpleGrid>
-    </VStack>
+      {
+        found.length == 0 ? 
+          <Box align="center">
+            <Text>Book Not Found</Text>
+          </Box> :
+          <SimpleGrid columns={{sm: 2, md: 3, lg: 5}} spacing={10} > 
+              {
+                  found.map((f) => (
+                      <Box key={f.id} w="150px">
+                        <Book book={f} />
+                      </Box>
+                    ))
+              }
+          </SimpleGrid>
+      }
+      </VStack>
     </VStack>
   )
 }
